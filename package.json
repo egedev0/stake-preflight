@@ -1,0 +1,42 @@
+{
+  "name": "stake-preflight",
+  "version": "0.1.0",
+  "description": "Pre-submission checks for Stake Engine games: plays your build against a mock RGS and reports what review tends to send back.",
+  "keywords": [
+    "stake",
+    "stake-engine",
+    "rgs",
+    "slots",
+    "igaming",
+    "playwright",
+    "e2e",
+    "qa"
+  ],
+  "license": "MIT",
+  "author": "egedev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/egedev0/stake-preflight.git"
+  },
+  "bugs": "https://github.com/egedev0/stake-preflight/issues",
+  "homepage": "https://github.com/egedev0/stake-preflight#readme",
+  "type": "module",
+  "bin": {
+    "stake-preflight": "bin/stake-preflight.js"
+  },
+  "exports": "./src/index.js",
+  "files": [
+    "bin",
+    "src"
+  ],
+  "engines": {
+    "node": ">=22.15"
+  },
+  "scripts": {
+    "test": "node --test \"test/*.test.js\"",
+    "demo": "node bin/stake-preflight.js test/fixtures/game --math test/fixtures/math --out demo-report"
+  },
+  "dependencies": {
+    "playwright-core": "^1.55.0"
+  }
+}

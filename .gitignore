@@ -1,0 +1,4 @@
+node_modules/
+preflight-report/
+demo-report/
+.DS_Store
