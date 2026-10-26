@@ -264,7 +264,10 @@ export class Session {
     let nudges = 0;
     let nudged = started;
     while (!this.rgs.isEnded(round.betID)) {
-      if (Date.now() - started > this.timeouts.round) return { ok: false, nudges, waited: Date.now() - started };
+      // a long bonus round that keeps saving its progress isn't stuck; one that goes quiet is
+      const now = Date.now();
+      const idle = now - Math.max(started, this.rgs.lastRoundCallAt);
+      if (idle > this.timeouts.round || now - started > this.timeouts.round * 5) return { ok: false, nudges, waited: now - started };
       const quietFor = Date.now() - Math.max(nudged, this.rgs.lastRoundCallAt);
       if (quietFor > 4000 && !this.rgs.isEnded(round.betID)) {
         await this.steps(this.config.spin);

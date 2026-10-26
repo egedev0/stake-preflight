@@ -79,6 +79,8 @@ Optional. Put `preflight.config.json` where you run the command, or pass `--conf
 }
 ```
 
+`timeouts` are in seconds. `round` is how long a round may go without saving progress (`/bet/event`) or ending, so a long bonus round that keeps moving gets the time it needs.
+
 A step is one of `{ "key": "Enter" }`, `{ "click": [x, y] }` with x and y as fractions of the screen, `{ "selector": "css selector" }` or `{ "wait": 500 }`.
 
 `screens` opens the game's own windows (rules, buy menu, settings) so their text gets read in social mode. If there's a `buy` entry, it's also tried with `disabledBuyFeature` on.
