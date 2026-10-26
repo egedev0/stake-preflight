@@ -6,7 +6,7 @@ test('finds restricted words as whole words', () => {
   const hits = findRestrictedWords([
     { text: 'BUY BONUS', source: 'canvas' },
     { text: 'Total bet: 1.00', source: 'html' },
-    { text: 'PAYLINES', source: 'canvas' },
+    { text: 'PAYDAY', source: 'canvas' },
     { text: 'Pays anywhere', source: 'svg' },
     { text: 'ALPHABET', source: 'canvas' },
   ]);
@@ -20,6 +20,11 @@ test('keeps where each word was seen', () => {
   ]);
   assert.deepEqual(hit.sources.sort(), ['canvas', 'html']);
   assert.deepEqual(hit.examples, ['BUY BONUS', 'Buy feature']);
+});
+
+test('flags paylines, which review counts as "pay"', () => {
+  const hits = findRestrictedWords([{ text: 'The game has 40 fixed paylines.', source: 'html' }]);
+  assert.deepEqual(hits.map((hit) => hit.word), ['paylines']);
 });
 
 test('matches phrases across spacing', () => {

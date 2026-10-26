@@ -7,6 +7,7 @@ export const RESTRICTED = [
   'buy', 'buys', 'buying', 'bought',
   'purchase', 'purchases',
   'pay', 'pays', 'paid', 'paying', 'payout', 'payouts', 'paytable', 'paytables', 'pay table',
+  'payline', 'paylines', 'pay line', 'pay lines',
   'cash', 'money', 'currency', 'fund', 'funds',
   'deposit', 'deposits', 'withdraw', 'withdrawal', 'withdrawals',
   'credit', 'credits',
