@@ -2,7 +2,7 @@
 
 Checks a Stake Engine game before you submit it. It serves your build the way Stake's CDN does, plays it against a mock RGS, and writes a report with a screenshot of everything it looked at.
 
-![A report](docs/report.png)
+![A report](https://raw.githubusercontent.com/egedev0/stake-preflight/main/docs/report.png)
 
 I made this while shipping slots on Stake Engine. Review kept sending games back for things that take a minute to fix and an hour to find: a bet that ignored the RGS's bet levels, `$0.020` on a win label, the word "buy" in social mode, a replay that called the wallet. Each of those is a check here now.
 
@@ -11,14 +11,18 @@ I made this while shipping slots on Stake Engine. Review kept sending games back
 Needs Node 22.15 or newer and Google Chrome (or Chromium).
 
 ```sh
-npx github:egedev0/stake-preflight ./build --math ./math
+npx stake-preflight ./build --math ./math
 ```
+
+Or add it to the project with `npm install -D stake-preflight`, or run the latest from GitHub with `npx github:egedev0/stake-preflight`.
 
 `./build` is the folder you upload as the frontend. `--math` is the folder you upload as the math: `index.json`, the lookup tables and the books. Without it, the checks that play rounds are skipped.
 
-A full run takes five to ten minutes; `--quick` covers the main checks in about two. The report goes to `preflight-report/index.html`, with a `report.json` next to it.
+A full run takes five to ten minutes; `--quick` covers the main checks in about two. The report goes to `preflight-report/index.html`, with a `report.json` next to it. `--open` opens it when the run is done.
 
-The command exits with 0 when nothing failed, 1 when a check found an error (or a warning, with `--strict`) and 2 when it couldn't run, so it also works in CI.
+Ctrl+C stops the run and still writes the report for the checks that ran. On a Mac the run keeps the machine from sleeping, which would stall the game mid-round.
+
+The command exits with 0 when nothing failed, 1 when a check found an error (or a warning, with `--strict`), 2 when it couldn't run and 130 when it was stopped, so it also works in CI.
 
 To see it on the small demo game in this repo:
 
@@ -91,12 +95,14 @@ The words of the game's own name (its `<title>`) are never flagged in social mod
 
 ## From code
 
-```js
+```ts
 import { preflight } from 'stake-preflight';
 
 const report = await preflight({ build: 'build', math: 'math', quick: true });
 console.log(report.summary); // { errors, warnings, passed, skipped, sections }
 ```
+
+The package ships its types. `onProgress` gets an event as each check starts and ends, and `signal` takes an `AbortSignal` to stop a run early.
 
 ## What it can't tell you
 
@@ -105,6 +111,17 @@ It doesn't judge art, animation or the feel of the game, which is most of what r
 Some checks come from review feedback rather than Stake's docs, and the rules change. If a check disagrees with what review told you, please open an issue.
 
 Not affiliated with Stake.
+
+## Development
+
+The code is TypeScript and runs from source with Node 22.18 or newer, no build step needed:
+
+```sh
+npm install
+npm test            # unit tests, then the demo game in a real browser
+npm run typecheck
+npm run build       # compiles to dist/, which is what gets published
+```
 
 ## License
 
