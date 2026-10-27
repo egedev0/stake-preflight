@@ -1,6 +1,6 @@
 {
   "name": "stake-preflight",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pre-submission checks for Stake Engine games: plays your build against a mock RGS and reports what review tends to send back.",
   "keywords": [
     "stake",
