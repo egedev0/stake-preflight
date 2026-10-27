@@ -22,21 +22,34 @@
   "homepage": "https://github.com/egedev0/stake-preflight#readme",
   "type": "module",
   "bin": {
-    "stake-preflight": "bin/stake-preflight.js"
+    "stake-preflight": "dist/bin.js"
   },
-  "exports": "./src/index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "types": "./dist/index.d.ts",
   "files": [
-    "bin",
-    "src"
+    "dist"
   ],
   "engines": {
     "node": ">=22.15"
   },
   "scripts": {
-    "test": "node --test \"test/*.test.js\"",
-    "demo": "node bin/stake-preflight.js test/fixtures/game --math test/fixtures/math --out demo-report"
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc",
+    "test": "node --test \"test/*.test.ts\"",
+    "prepare": "npm run build",
+    "demo": "tsc -p tsconfig.build.json && node dist/bin.js test/fixtures/game --math test/fixtures/math --out demo-report"
   },
   "dependencies": {
     "playwright-core": "^1.55.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "typescript": "^7.0.2"
   }
 }
